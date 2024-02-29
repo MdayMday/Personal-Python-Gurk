@@ -1,0 +1,519 @@
+#Libaries
+import random
+
+class ANSI():
+    def background(code):
+        return "\33[{code}m".format(code=code)
+ 
+    def style_text(code):
+        return "\33[{code}m".format(code=code)
+ 
+    def color_text(code):
+        return "\33[{code}m".format(code=code)
+    
+
+#global variables for now
+deck = [2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11,12,12,12,12,13,13,13,13,14,14,14,14] #Deck
+P1 = []
+Cpu1 = []
+Cpu2 = []
+Cpu3 = []
+Cpu4 = []
+Cpu5 = []
+Cpu6 = []
+Cpu7 = []
+CPUS = [Cpu1,Cpu2,Cpu3,Cpu4,Cpu5,Cpu6,Cpu7]
+River = []
+PL = [] 
+CL = []
+CL2 = []
+CL3 = []
+CL4 = []
+CL5 = []
+CL6 = []
+CL7 = []
+
+def sorty():
+    P1.sort()
+    Cpu1.sort()
+    Cpu1.sort()
+    Cpu2.sort()
+    Cpu3.sort()
+    Cpu4.sort()
+    Cpu5.sort()
+    Cpu6.sort()
+    Cpu7.sort()
+#shuffling the deck
+random.shuffle(deck)
+#setting player hand
+for x in range(6):
+    x+1
+    card = deck.pop(0)
+    P1.insert(0, card)
+    P1.sort()
+
+#setting up Cpu hand
+    x = 0
+    x = int(x)
+    for x in range(7):
+        x + 1
+        card = deck.pop(0)
+        CPUS[x].insert(0, card)
+        CPUS[x].sort()
+        print("NEW TEST")
+        print("p1", P1)
+        print("cpu1", Cpu1)
+        print("cpu2", Cpu2)
+        print("cpu3", Cpu3)
+        print("cpu4", Cpu4)
+        print("cpu5", Cpu5)
+        print("cpu6", Cpu6)
+        print("cpu7", Cpu7)
+        print("remaining cards", deck)
+
+#Game logic
+def rotation_p(): 
+    x = 0
+    print("Player please pick a position of the card you want to play.", P1)
+    GC = input()
+    C = int(GC)
+    GameCard = P1.pop(C - 1)
+    LeaderCard = GameCard
+    River.insert(0, GameCard)
+    print("The river is",River,"\nThe Leader card is",LeaderCard)
+
+    #cpu,pick,check card, plays card------pick,check,pick,check,pick,check,plays
+    #Cpu(CPU1)
+
+
+    RP = 0
+    for RP in range(7):
+        GameCard = CPUS[RP].pop( 5-x )
+        if (GameCard >= LeaderCard):
+            print('opt 1')
+            LeaderCard = GameCard
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            RP + 1
+
+        elif (GameCard < LeaderCard):
+            CPUS[RP].insert(0, GameCard)
+            CPUS[RP].sort()
+            print('opt 3')
+            GameCard = CPUS[RP].pop( 0 )
+            River.insert(-1, GameCard)
+            print(River)
+            RP + 1
+                
+    """
+    z = 1
+
+    while (z != 2):
+    
+        
+        GameCard = Cpu2.pop( 5 - x )
+        if (GameCard>LeaderCard):
+            print('opt 1')
+            LeaderCard = GameCard
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+
+        elif (GameCard == LeaderCard):
+            print('opt 2')
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+        elif (GameCard < LeaderCard):
+            Cpu2.insert(0, GameCard)
+            Cpu2.sort()
+            print('opt 3')
+            GameCard = Cpu2.pop( 0 )
+            River.insert(-1, GameCard)
+            print(River)
+
+            z =2 
+
+    z = 1
+    while (z != 2):
+    
+        
+        GameCard = Cpu3.pop( 5 - x )
+        if (GameCard>LeaderCard):
+            print('opt 1')
+            LeaderCard = GameCard
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+
+        elif (GameCard == LeaderCard):
+            print('opt 2')
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+        elif (GameCard < LeaderCard):
+            Cpu3.insert(0, GameCard)
+            Cpu3.sort()
+            print('opt 3')
+            GameCard = Cpu3.pop( 0 )
+            River.insert(-1, GameCard)
+            print(River)
+
+            z =2 
+
+    z = 1
+    while (z != 2):
+    
+        
+        GameCard = Cpu4.pop(5 - x)
+        if (GameCard>LeaderCard):
+            print('opt 1')
+            LeaderCard = GameCard
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+
+        elif (GameCard == LeaderCard):
+            print('opt 2')
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+        elif (GameCard < LeaderCard):
+            Cpu4.insert(0, GameCard)
+            Cpu4.sort()
+            print('opt 3')
+            GameCard = Cpu4.pop( 0 )
+            River.insert(-1, GameCard)
+            print(River)
+
+            z =2 
+
+    z = 1
+    while (z != 2):
+    
+        
+        GameCard = Cpu5.pop( 5 - x )
+        if (GameCard>LeaderCard):
+            print('opt 1')
+            LeaderCard = GameCard
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+
+        elif (GameCard == LeaderCard):
+            print('opt 2')
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+        elif (GameCard < LeaderCard):
+            Cpu5.insert(0, GameCard)
+            Cpu5.sort()
+            print('opt 3')
+            GameCard = Cpu5.pop( 0 )
+            River.insert(-1, GameCard)
+            print(River)
+
+            z =2 
+
+    z = 1
+    while (z != 2):
+    
+        
+        GameCard = Cpu6.pop( 5 - x )
+        if (GameCard>LeaderCard):
+            print('opt 1')
+            LeaderCard = GameCard
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+
+        elif (GameCard == LeaderCard):
+            print('opt 2')
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+        elif (GameCard < LeaderCard):
+            Cpu6.insert(0, GameCard)
+            Cpu6.sort()
+            print('opt 3')
+            GameCard = Cpu6.pop( 0 )
+            River.insert(-1, GameCard)
+            print(River)
+
+            z =2 
+
+    z = 1
+    while (z != 2):
+    
+        
+        GameCard = Cpu7.pop( 5 - x )
+        if (GameCard>LeaderCard):
+            print('opt 1')
+            LeaderCard = GameCard
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+
+        elif (GameCard == LeaderCard):
+            print('opt 2')
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+        elif (GameCard < LeaderCard):
+            Cpu7.insert(0, GameCard)
+            Cpu7.sort()
+            print('opt 3')
+            GameCard = Cpu7.pop( 0 )
+            River.insert(-1, GameCard)
+            print(River)
+
+            z =2 
+
+def rotation_1():
+    z = 1
+    x = 0
+#cpu
+    while (z != 2):
+    
+        
+        GameCard = Cpu1.pop( 5-x )
+        LeaderCard = GameCard
+        if (GameCard>LeaderCard):
+            print('opt 1')
+            LeaderCard = GameCard
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+
+        elif (GameCard == LeaderCard):
+            print('opt 2')
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+        elif (GameCard < LeaderCard):
+            Cpu1.insert(0, GameCard)
+            Cpu1.sort()
+            print('opt 3')
+            GameCard = Cpu1.pop( 0 )
+            River.insert(-1, GameCard)
+            print(River)
+
+            z =2 
+    z = 1
+    #cpu2
+    while (z != 2):
+    
+        
+        GameCard = Cpu2.pop( 5 - x )
+        if (GameCard>LeaderCard):
+            print('opt 1')
+            LeaderCard = GameCard
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+
+        elif (GameCard == LeaderCard):
+            print('opt 2')
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+        elif (GameCard < LeaderCard):
+            Cpu2.insert(0, GameCard)
+            Cpu2.sort()
+            print('opt 3')
+            GameCard = Cpu2.pop( 0 )
+            River.insert(-1, GameCard)
+            print(River)
+
+            z =2 
+
+    z = 1
+    #cpu3
+    while (z != 2):
+    
+        
+        GameCard = Cpu3.pop( 5 - x )
+        if (GameCard>LeaderCard):
+            print('opt 1')
+            LeaderCard = GameCard
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+
+        elif (GameCard == LeaderCard):
+            print('opt 2')
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+        elif (GameCard < LeaderCard):
+            Cpu3.insert(0, GameCard)
+            Cpu3.sort()
+            print('opt 3')
+            GameCard = Cpu3.pop( 0 )
+            River.insert(-1, GameCard)
+            print(River)
+
+            z =2 
+        
+    z = 1
+    #4
+    while (z != 2):
+    
+        
+        GameCard = Cpu4.pop(5 - x)
+        if (GameCard>LeaderCard):
+            print('opt 1')
+            LeaderCard = GameCard
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+
+        elif (GameCard == LeaderCard):
+            print('opt 2')
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+        elif (GameCard < LeaderCard):
+            Cpu4.insert(0, GameCard)
+            Cpu4.sort()
+            print('opt 3')
+            GameCard = Cpu4.pop( 0 )
+            River.insert(-1, GameCard)
+            print(River)
+
+            z =2 
+
+    z = 1
+    #5
+    while (z != 2):
+    
+        
+        GameCard = Cpu5.pop( 5 - x )
+        if (GameCard>LeaderCard):
+            print('opt 1')
+            LeaderCard = GameCard
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+
+        elif (GameCard == LeaderCard):
+            print('opt 2')
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+        elif (GameCard < LeaderCard):
+            Cpu5.insert(0, GameCard)
+            Cpu5.sort()
+            print('opt 3')
+            GameCard = Cpu5.pop( 0 )
+            River.insert(-1, GameCard)
+            print(River)
+
+            z =2 
+
+    z = 1
+    #6
+    while (z != 2):
+    
+        
+        GameCard = Cpu6.pop( 5 - x )
+        if (GameCard>LeaderCard):
+            print('opt 1')
+            LeaderCard = GameCard
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+
+        elif (GameCard == LeaderCard):
+            print('opt 2')
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+        elif (GameCard < LeaderCard):
+            Cpu6.insert(0, GameCard)
+            Cpu6.sort()
+            print('opt 3')
+            GameCard = Cpu6.pop( 0 )
+            River.insert(-1, GameCard)
+            print(River)
+
+            z =2 
+
+    z = 1
+    #7
+    while (z != 2):
+    
+        
+        GameCard = Cpu7.pop( 5 - x )
+        if (GameCard>LeaderCard):
+            print('opt 1')
+            LeaderCard = GameCard
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+
+        elif (GameCard == LeaderCard):
+            print('opt 2')
+            River.insert(-1, GameCard)
+            print("The river is",River,"\nThe Leader card is",LeaderCard)
+            z = 2
+
+        elif (GameCard < LeaderCard):
+            Cpu7.insert(0, GameCard)
+            Cpu7.sort()
+            print('opt 3')
+            GameCard = Cpu7.pop( 0 )
+            River.insert(-1, GameCard)
+            print(River)
+
+            z =2 
+    z = 1 
+    #player
+    while (z != 2):
+
+        print(LeaderCard)
+        print("Player please pick a card from your hand to play.", P1)
+        GC = input()
+        C = int(GC)
+        GameCard = P1.pop(C - 1)
+        if ( GameCard < LeaderCard) and (GameCard > P1[0] ):
+            print("That is an invalid input. Please place a valid card.")
+            P1.insert(C, GameCard)
+            P1.sort()
+        elif ( GameCard == LeaderCard) or (GameCard > LeaderCard ):
+            print("You are now the leader!!!!")
+            z = 2
+            LeaderCard == GameCard
+        elif (GameCard < LeaderCard) and ( GameCard == P1[0]):
+            print("You have played a valid card.")
+            z = 2
+
+
+rotation_1()
+"""
+rotation_p()
