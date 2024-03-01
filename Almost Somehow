@@ -1,0 +1,161 @@
+#Libaries
+import random
+
+class ANSI():
+    def background(code):
+        return "\33[{code}m".format(code=code)
+ 
+    def style_text(code):
+        return "\33[{code}m".format(code=code)
+ 
+    def color_text(code):
+        return "\33[{code}m".format(code=code)
+print("NEW TEST")
+
+#global variables for now
+deck = [2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11,12,12,12,12,13,13,13,13,14,14,14,14] #Deck
+P1 = []
+Cpu1 = []
+Cpu2 = []
+Cpu3 = []
+Cpu4 = []
+Cpu5 = []
+Cpu6 = []
+Cpu7 = []
+CPUS = [Cpu1,Cpu2,Cpu3,Cpu4,Cpu5,Cpu6,Cpu7]
+Players = [P1,Cpu1,Cpu2,Cpu3,Cpu4,Cpu5,Cpu6,Cpu7]
+global y, GameCard, Leader, RP, DRP
+River = []
+PL = [] 
+CL = []
+RP = 0
+OL = 0
+P1Out = P1
+RoundCount = 0
+RP = 0
+GameCard = 0
+PlayerOrder = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+PlayerIndex = Players.index(P1)
+
+print(PlayerIndex)
+
+def sorty():
+    P1.sort()
+    for n in range(7):
+        Players[n].sort()
+
+def deal():
+    #shuffling the deck
+    random.shuffle(deck)
+    #setting player hand
+    for x in range(6):
+        x+1
+        card = deck.pop(0)
+        P1.insert(0, card)
+        P1.sort()
+
+    #setting up Cpu hand
+        x = 0
+        x = int(x)
+        for x in range(7):
+            x + 1
+            card = deck.pop(0)
+            CPUS[x].insert(0, card)
+            CPUS[x].sort()
+
+#Game logic
+def rotation_p(): 
+    y = 0
+    RP = 0
+    Leader = 0
+    LeaderCard = 0
+    RoundRiver = River.copy()
+    DRP = RP + 1
+    print("this bit went")
+    
+    if (PlayerIndex == 0):
+        x = 0
+        RoundRiver = River.copy()
+        print("Player please pick a position of the card you want to play.", P1)
+        GC = input()
+        C = int(GC)
+        GameCard = P1.pop(C - 1)
+        LeaderCard = GameCard
+        RoundRiver.insert(0, GameCard)
+        print("The river is",RoundRiver,"\nThe Leader card is",LeaderCard, "and the leader is Player", Leader)
+        print("this part goes")
+        y = 9
+        P1Out = Players.pop(PlayerIndex)
+
+    for RP in range(len(Players)):
+        GameCard = Players[RP].pop(-1)
+        if (y != 9):
+            if (RP == PlayerIndex):
+                print(LeaderCard)
+                print("Player please pick a card from your hand to play.", P1)
+                GC = input()
+                C = int(GC)
+                GameCard = P1.pop(C - 1)
+                
+                if ( GameCard < LeaderCard) and (GameCard > P1[0] ):
+                    print("That is an invalid input. Please place a valid card.")
+                    P1.insert(C, GameCard)
+                    P1.sort()
+                    
+                elif (GameCard >= LeaderCard):
+                    print("You are now the leader!!!!")
+                    
+                elif (GameCard < LeaderCard) and ( GameCard == P1[0]):
+                    print("You have played a valid card.")
+                
+            
+        elif (GameCard >= LeaderCard):
+            print("CPU", DRP, "'s turn!")
+            LeaderCard = GameCard
+            RoundRiver.insert(-1, GameCard)
+            Leader = int(DRP)
+            CurrentLeader = Leader
+            print("The river is",RoundRiver,"\nThe Leader card is",LeaderCard, "and the leader is Player", CurrentLeader)
+            
+
+        elif (GameCard < LeaderCard):
+            Players[RP].insert(0, GameCard)
+            Players[RP].sort()
+            print('CPU', DRP, "'s turn!")
+            GameCard = CPUS[RP].pop( 0 )
+            RoundRiver.insert(-1, GameCard)
+            print(RoundRiver)
+        RP = RP + 1    
+        print("Turn", RP)
+        print("The river is",RoundRiver,"\nThe Leader card is",LeaderCard, "and the leader is Player", Leader)
+                
+sorty()
+deal()
+Leader = 0
+for RoundCount in range(6):
+    
+    print("Round", RoundCount)
+    rotation_p()
+    if (len(Players) != 8):
+        Players.insert(3, P1Out)
+    PlayerIndex = Players.index(P1Out)
+    y = 0
+
+    if (Leader == 0):
+        PlayerOrder = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    if (Leader == 1):
+        PlayerOrder = [1, 2, 3, 4, 5, 6, 7, 8, 0]
+    if (Leader == 2):
+        PlayerOrder = [2, 3, 4, 5, 6, 7, 8, 0, 1]
+    if (Leader == 3):
+        PlayerOrder = [3, 4, 5, 6, 7, 8, 0, 1, 2]
+    if (Leader == 4):
+        PlayerOrder = [4, 5, 6, 7, 8, 0, 1, 2, 3]
+    if (Leader == 5):
+        PlayerOrder = [5, 6, 7, 8, 0, 1, 2, 3, 4]
+    if (Leader == 6):
+        PlayerOrder = [6, 7, 8, 0, 1, 2, 3, 4, 5]
+    if (Leader == 7):
+        PlayerOrder = [7, 8, 0, 1, 2, 3, 4, 5, 6]
+    if (Leader == 8):
+        PlayerOrder = [8, 0, 1, 2, 3, 4, 5, 6, 7]
