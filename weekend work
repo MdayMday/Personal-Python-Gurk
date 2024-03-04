@@ -1,0 +1,163 @@
+#Libaries
+import random
+
+class ANSI():
+    def background(code):
+        return "\33[{code}m".format(code=code)
+ 
+    def style_text(code):
+        return "\33[{code}m".format(code=code)
+ 
+    def color_text(code):
+        return "\33[{code}m".format(code=code)
+print("NEW TEST")
+
+#global variables for now
+deck = [2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11,12,12,12,12,13,13,13,13,14,14,14,14] #Deck
+P1 = []
+Cpu1 = []
+Cpu2 = []
+Cpu3 = []
+Cpu4 = []
+Cpu5 = []
+Cpu6 = []
+Cpu7 = []
+CPUS = [Cpu1,Cpu2,Cpu3,Cpu4,Cpu5,Cpu6,Cpu7]
+Players = [P1,Cpu1,Cpu2,Cpu3,Cpu4,Cpu5,Cpu6,Cpu7]
+global y, GameCard, RP, DRP
+River = []
+PL = [] 
+CL = []
+OL = 0
+P1Out = P1
+GameCard = 0
+PlayerOrder = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+PlayerIndex = Players.index(P1)
+
+print(PlayerIndex)
+
+def sorty():
+    P1.sort()
+    for n in range(7):
+        CPUS[n].sort()
+
+def deal():
+    #shuffling the deck
+    random.shuffle(deck)
+    #setting player hand
+    for x in range(6):
+        x+1
+        card = deck.pop(0)
+        P1.insert(0, card)
+        P1.sort()
+
+    #setting up Cpu hand
+        x = 0
+        x = int(x)
+        for x in range(7):
+            x + 1
+            card = deck.pop(0)
+            CPUS[x].insert(0, card)
+            CPUS[x].sort()
+
+#Game logic
+def rotation_p(): 
+    y = 0
+    RP = 0
+    LeaderCard = 0
+    Leader = 0
+    RoundRiver = River.copy()
+    DRP = RP + 1
+    print("New Rotation")
+    
+    if (PlayerIndex == 0):
+        x = 0
+        RoundRiver = River.copy()
+        print("Player please pick a position of the card you want to play.", P1)
+        GC = input()
+        C = int(GC)
+        GameCard = P1.pop(C - 1)
+        LeaderCard = GameCard
+        RoundRiver.insert(0, GameCard)
+        Leader = int(RP)
+        CurrentLeader = int(DRP)
+        print("The river is",RoundRiver,"\nThe Leader card is",LeaderCard, "and the leader is Player", CurrentLeader)
+        print("this part goes")
+        y = 9
+        P1Out = Players.pop(PlayerIndex)
+
+    for RP in range(len(Players)):
+        
+        if (y != 9):
+            if (RP == PlayerIndex):
+                print(LeaderCard)
+                print("Player please pick a card from your hand to play.", P1)
+                GC = input()
+                C = int(GC)
+                GameCard = P1.pop(C - 1)
+                
+                if ( GameCard < LeaderCard) and (GameCard > P1[0] ):
+                    print("That is an invalid input. Please place a valid card.")
+                    P1.insert(C, GameCard)
+                    P1.sort()
+                    
+                elif (GameCard >= LeaderCard):
+                    print("You are now the leader!!!!")
+                    
+                elif (GameCard < LeaderCard) and ( GameCard == P1[0]):
+                    print("You have played a valid card.")
+                
+        else:
+            GameCard = CPUS[RP].pop(-1)
+            if (GameCard >= LeaderCard):
+                print("CPU", DRP, "'s turn!")
+                LeaderCard = GameCard
+                RoundRiver.insert(-1, GameCard)
+                Leader = int(RP)
+                CurrentLeader = int(DRP)
+                print("The river is",RoundRiver,"\nThe Leader card is",LeaderCard, "and the leader is Player", CurrentLeader)
+                
+    
+            elif (GameCard < LeaderCard):
+                Players[RP].insert(0, GameCard)
+                Players[RP].sort()
+                print('CPU', DRP, "'s turn!")
+                GameCard = CPUS[RP].pop( 0 )
+                RoundRiver.insert(-1, GameCard)
+                print(RoundRiver)
+        RP = RP + 1   
+        DRP = RP + 1
+    CurrentLeader = Leader + 1
+    print("The river is",RoundRiver,"\nThe Leader card is",LeaderCard, "and the leader is Player", CurrentLeader)
+
+                
+sorty()
+deal()
+RoundCount = 1
+Leader = 0
+for RoundCount in range(6):
+    print("Round", RoundCount)
+    y = 0
+    Players = [P1,Cpu1,Cpu2,Cpu3,Cpu4,Cpu5,Cpu6,Cpu7]
+    if (RoundCount == 0):
+        Players = [P1,Cpu1,Cpu2,Cpu3,Cpu4,Cpu5,Cpu6,Cpu7]
+    if (RoundCount == 1):
+        Players = [Cpu1,Cpu2,Cpu3,Cpu4,Cpu5,Cpu6,Cpu7,P1]
+    if (RoundCount == 2):
+        Players = [Cpu2,Cpu3,Cpu4,Cpu5,Cpu6,Cpu7,P1,Cpu1]
+    if (RoundCount == 3):
+        Players = [Cpu3,Cpu4,Cpu5,Cpu6,Cpu7,P1,Cpu1,Cpu2]
+    if (RoundCount == 4):
+        Players = [Cpu4,Cpu5,Cpu6,Cpu7,P1,Cpu1,Cpu2,Cpu3]
+    if (RoundCount == 5):
+        Players = [Cpu5,Cpu6,Cpu7,P1,Cpu1,Cpu2,Cpu3,Cpu4]
+    if (RoundCount == 6):
+        Players = [Cpu6,Cpu7,P1,Cpu1,Cpu2,Cpu3,Cpu4,Cpu5]
+    if (RoundCount == 7):
+        Players = [Cpu7,P1,Cpu1,Cpu2,Cpu3,Cpu4,Cpu5,Cpu6]
+    PlayerIndex = Players.index(P1)
+    if (len(Players) != 8):
+        Players.insert(PlayerIndex, P1)
+    PlayerIndex = Players.index(P1)
+    rotation_p()
+    RoundCount = int(RoundCount + 1)
