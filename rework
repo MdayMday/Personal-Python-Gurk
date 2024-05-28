@@ -24,8 +24,6 @@ Cpu7 = []
 CPUS = [Cpu1,Cpu2,Cpu3,Cpu4,Cpu5,Cpu6,Cpu7]
 allPlay = [P1, Cpu1, Cpu2, Cpu3, Cpu4, Cpu5, Cpu6, Cpu7]
 River = []
-PL = [] 
-CL = []
 RP = 0
 RC = 0
 def sorty():
@@ -42,42 +40,58 @@ for x in range(6):
         card = deck.pop(0)
         allPlay[x].insert(0, card)
         allPlay[x].sort()
-#Game logic
 def rotation_p():
-    turn = 0
-    for x in range(8):
-        if (allPlay.index(P1) == turn):
-            x = 0
-            print("Pick the card you'd like to play.", P1)
-            GC = int(input())
-            C = P1.index(GC)
-            GameCard = P1.pop(C)
-            LeaderCard = GameCard
-            River.insert(0, GameCard)
-            print("The river is",River,"\nThe Leader card is",LeaderCard)
-            turn = turn + 1
-        else:
-            GameCard = allPlay[RP].pop( 5-x )
-            if (GameCard >= LeaderCard):
-                LeaderCard = GameCard
-                River.insert(-1, GameCard)
-                Leader = str(CPUS[RP])
-                DRP = RP + 1
-                win = DRP
-                print(f"CPU {DRP} played {GameCard}!")
-                print("The river is",River,"\nThe Leader card is",LeaderCard, "and the leader is Cpu", DRP)
-                RP + 1
-        
-            elif (GameCard < LeaderCard):
-                CPUS[RP].insert(0, GameCard)
-                CPUS[RP].sort()
-                GameCard = CPUS[RP].pop( 0 )
-                River.insert(-1, GameCard)
-                DRP = RP + 1
-                print(f"CPU {DRP} played {GameCard}!")
-                print(River)
-                RP + 1
+    y = True
+    over = 0
+    while y == True :
+        turn = 0
+        over += 1
+        River.clear()
+        LeaderCard = 0
+        for x in range(8):
+            if (allPlay.index(P1) == turn):
+                x = 0
+                print("Pick the card you'd like to play.", P1)
+                GC = int(input())
+                C = P1.index(GC)
+                GameCard = P1.pop(C)
+                if (GameCard >= LeaderCard):
+                    LeaderCard = GameCard
+                    River.insert(0, GameCard)
+                    print("The river is",River,"\nThe Leader card is",LeaderCard)
+                    turn = turn + 1
+                elif (GameCard < LeaderCard):
+                    print("Invalid, playing your lowest card.")
+                    P1.insert(0, GameCard)
+                    P1.sort()
+                    GameCard = P1.pop(0)
+                    River.insert(0, GameCard)
+                    print("The river is",River,"\nThe Leader card is",LeaderCard)
+                    turn = turn + 1
+            else:
+                GameCard = allPlay[turn].pop(-1)
+                if (GameCard >= LeaderCard):
+                    LeaderCard = GameCard
+                    River.insert(-1, GameCard)
+                    DRP = turn
+                    win = DRP
+                    print(f"CPU {DRP} played {GameCard}!")
+                    print("The river is",River,"\nThe Leader card is",LeaderCard, "and the leader is Cpu", DRP)
+                    turn = turn + 1
+
+                elif (GameCard < LeaderCard):
+                    CPUS[RP - 1].insert(0, GameCard)
+                    CPUS[RP - 1].sort()
+                    GameCard = CPUS[RP - 1].pop( 0 )
+                    River.insert(-1, GameCard)
+                    DRP = turn 
+                    print(f"CPU {DRP} played {GameCard}!")
+                    print(River)
+                    turn = turn + 1
         print(win, "is the leader")
-    random.shuffle(allPlay)
+        random.shuffle(allPlay)
+        x = 0
+        if (over == 7):
+            y = False
         
 rotation_p()
