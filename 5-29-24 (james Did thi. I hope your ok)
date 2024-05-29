@@ -1,0 +1,126 @@
+#Libaries
+import random
+import time
+class ANSI():
+    def background(code):
+        return "\33[{code}m".format(code=code)
+ 
+    def style_text(code):
+        return "\33[{code}m".format(code=code)
+ 
+    def color_text(code):
+        return "\33[{code}m".format(code=code)
+
+
+#global variables for now
+deck = [2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11,12,12,12,12,13,13,13,13,14,14,14,14] #Deck
+P1 = []
+Cpu1 = []
+Cpu2 = []
+Cpu3 = []
+Cpu4 = []
+Cpu5 = []
+Cpu6 = []
+Cpu7 = []
+CPUS = [Cpu1,Cpu2,Cpu3,Cpu4,Cpu5,Cpu6,Cpu7]
+allPlay = [P1, Cpu1, Cpu2, Cpu3, Cpu4, Cpu5, Cpu6, Cpu7]
+compList = []
+River = []
+RP = 0
+def sorty():
+    for n in range(7):
+        allPlay[n].sort()
+
+#shuffling the deck
+random.shuffle(deck)
+#setting player hand
+def dealHand():
+    for x in range(6):
+        x = 0
+        for x in range(8):
+            x + 1
+            card = deck.pop(0)
+            allPlay[x].insert(0, card)
+            allPlay[x].sort()
+def rotation_p():
+    y = True
+    t = False
+    f = False
+    over = 0
+    up = 0
+    dealHand()
+    allAt = allPlay[:]
+    while y == True :
+        print("\n")
+        turn = 0
+        over += 1
+        River.clear()
+        LeaderCard = 0
+        for x in range(8):
+            print("\n")
+            if (allAt.index(P1) == turn):
+                x = 0
+                print("Pick the card you'd like to play.", P1)
+                GC = int(input())
+                C = P1.index(GC)
+                GameCard = P1.pop(C)
+                if (GameCard >= LeaderCard):
+                    LeaderCard = GameCard
+                    turn += 1
+                elif (GameCard < LeaderCard):
+                    print("Invalid, playing your lowest card.")
+                    P1.insert(0, GameCard)
+                    P1.sort()
+                    GameCard = P1.pop(0)
+                    turn += 1
+                River.insert(0, GameCard)
+                print("The river is",River,"\nThe Leader card is",LeaderCard)
+                time.sleep(1)
+            else:
+                GameCard = allAt[turn].pop(-1)
+                if (GameCard >= LeaderCard):
+                    LeaderCard = GameCard
+                    River.insert(-1, GameCard)
+                    DRP = turn
+                    win = DRP
+                    print(f"CPU {DRP} played {GameCard}!")
+                    print("The river is",River,"\nThe Leader card is",LeaderCard, "and the leader is Cpu", DRP)
+                    turn += 1
+                elif (GameCard < LeaderCard):
+                    print(CPUS[RP-1])
+                    CPUS[RP - 1].insert(0, GameCard)
+                    CPUS[RP - 1].sort()
+                    GameCard = CPUS[RP - 1].pop( 0 )
+                    River.insert(0, GameCard)
+                    DRP = turn 
+                    print(River)
+                    turn += 1
+                print(f"CPU {DRP} played {GameCard}!")
+                time.sleep(1)
+        print(win, "is the leader")
+        random.shuffle(allAt)
+        time.sleep(2)
+        x = 0
+        if (over == 5):
+            y = False
+            t = True
+        while t == True:
+            winCheck = allPlay[up].pop(0)
+            compList.insert(0, winCheck)
+            up = up + 1
+            if (up == 8):
+                t = False
+                f = True
+        while f == True:
+            time.sleep(2)
+            allPlay.reverse()
+            print(compList)
+            compList.index
+            minpos = compList.index(min(compList))
+            print (minpos)
+            if (minpos == -1):
+                print("Player 1 is victorious!")
+            else:
+                print(f"A CPU won, do you really care which one? Like really? Are you mentally ill?")
+            quit()
+rotation_p()
